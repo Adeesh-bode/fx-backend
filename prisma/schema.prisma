@@ -36,7 +36,6 @@ model User {
   userCredibility    UserCredibility?
   reviewsRecieved    Review[]          @relation("reviewRecieved")
   reviewsGiven       Review[]          @relation("reviewGiven")
-  Badge              Badge[]
 }
 
 model UserCredibility {
@@ -57,14 +56,12 @@ enum BadgeName {
 
 model Badge {
   id                String           @id @default(uuid())
-  userId            String
+  userCredibilityId String?
   badgeType         String
   badgeLevel        String
   badgeName         BadgeName
   badgePoints       Int
-  user              User             @relation(fields: [userId], references: [id])
   UserCredibility   UserCredibility? @relation(fields: [userCredibilityId], references: [id])
-  userCredibilityId String?
 }
 
 model Review {
