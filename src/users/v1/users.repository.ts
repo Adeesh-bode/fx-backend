@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/v1/prisma.service";
 import { AttributesDto } from "../dto/attributes.dto";
 
-import { Prisma } from '@prisma/client';
 import { PreferencesDto } from "../dto/preferences.dto";
 import { AccessoryDto } from "../dto/accessory.dto";
 
