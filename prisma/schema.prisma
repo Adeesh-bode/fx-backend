@@ -36,6 +36,18 @@ model User {
   userCredibility    UserCredibility?
   reviewsRecieved    Review[]          @relation("reviewRecieved")
   reviewsGiven       Review[]          @relation("reviewGiven")
+  UserAccessories    Accessory[]
+}
+
+model Accessory {
+  id             String @id @default(uuid())
+  userId         String
+  imageUrl       String
+  accessoryType  String
+  accessoryName  String
+  accessoryColor Color
+  accessorySize  Size
+  user           User   @relation(fields: [userId], references: [id])
 }
 
 model UserCredibility {
@@ -113,6 +125,7 @@ enum Size {
   L
   XL
   XXL
+  SIZENOTREQUIRED
 }
 
 enum PreferenceType {
@@ -143,11 +156,17 @@ enum crdb_internal_region {
 }
 
 model ExchangeHistory {
-  id          String   @id @default(uuid())
-  user1Id     String
-  user2Id     String
-  description String
-  createdAt   DateTime @default(now())
-  user1       User     @relation("user1Relation", fields: [user1Id], references: [id])
-  user2       User     @relation("user2Relation", fields: [user2Id], references: [id])
+  id               String   @id @default(uuid())
+  user1Id          String
+  user2Id          String
+  description      String
+  accessoryIdUser1 String
+  accessoryIdUser2 String
+  user1Review      String   @default("No Review")
+  user2Review      String   @default("No Review")
+  user1Rating      Float    @default(5)
+  user2Rating      Float    @default(5)
+  createdAt        DateTime @default(now())
+  user1            User     @relation("user1Relation", fields: [user1Id], references: [id])
+  user2            User     @relation("user2Relation", fields: [user2Id], references: [id])
 }
