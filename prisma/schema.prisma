@@ -23,31 +23,46 @@ model UserAuth {
 }
 
 model User {
-  id                 String            @id @default(uuid())
-  authId             String            @unique
-  name               String
-  userAuth           UserAuth          @relation(fields: [authId], references: [id])
-  userAttributes     UserAttributes?
-  userPreference     UserPreference[]
-  initiatedExchanges ExchangeHistory[] @relation("user1Relation")
-  receivedExchanges  ExchangeHistory[] @relation("user2Relation")
-  UserAddress        UserAddress?
-  phoneNumber        BigInt            @default(0)
-  userCredibility    UserCredibility?
-  reviewsRecieved    Review[]          @relation("reviewRecieved")
-  reviewsGiven       Review[]          @relation("reviewGiven")
-  UserAccessories    Accessory[]
+  id                    String            @id @default(uuid())
+  authId                String            @unique
+  name                  String
+  userAuth              UserAuth          @relation(fields: [authId], references: [id])
+  userAttributes        UserAttributes?
+  userPreference        UserPreference[]
+  initiatedExchanges    ExchangeHistory[] @relation("user1Relation")
+  receivedExchanges     ExchangeHistory[] @relation("user2Relation")
+  UserAddress           UserAddress?
+  phoneNumber           BigInt            @default(0)
+  userCredibility       UserCredibility?
+  reviewsRecieved       Review[]          @relation("reviewRecieved")
+  reviewsGiven          Review[]          @relation("reviewGiven")
+  UserAccessories       Accessory[]
+  initiateAccessoryChat AccessoryChat[]   @relation("initiateUserRelation")
+  recievedAccessoryChat AccessoryChat[]   @relation("receivedUserRelation")
+}
+
+model AccessoryChat {
+  id             String    @id @default(uuid())
+  accessoryId    String
+  intiateUserId  String
+  receivedUserId String
+  message        String
+  createdAt      DateTime  @default(now())
+  accessory      Accessory @relation(fields: [accessoryId], references: [id])
+  user1          User      @relation("initiateUserRelation", fields: [intiateUserId], references: [id])
+  user2          User      @relation("receivedUserRelation", fields: [receivedUserId], references: [id])
 }
 
 model Accessory {
-  id             String @id @default(uuid())
+  id             String          @id @default(uuid())
   userId         String
   imageUrl       String
   accessoryType  String
   accessoryName  String
   accessoryColor Color
   accessorySize  Size
-  user           User   @relation(fields: [userId], references: [id])
+  user           User            @relation(fields: [userId], references: [id])
+  AccessoryChat  AccessoryChat[]
 }
 
 model UserCredibility {

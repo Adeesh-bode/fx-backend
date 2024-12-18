@@ -3,6 +3,7 @@ import { UsersService } from "./users.service";
 import { ApiAcceptedResponse, ApiBody } from "@nestjs/swagger";
 import { AttributesDto } from "../dto/attributes.dto";
 import { PreferencesDto } from "../dto/preferences.dto";
+import { AccessoryDto } from "../dto/accessory.dto";
 
 @Controller('users')
 export class UsersController{
@@ -23,4 +24,9 @@ export class UsersController{
         return this.userService.AddUserPreferences(input);
     }
 
+    @ApiBody({type: AccessoryDto})
+    @Post('add-accessory')
+    async AddAccessory(@Body() input: AccessoryDto){
+        return this.userService.AddAccessory(input);
+    }
 }

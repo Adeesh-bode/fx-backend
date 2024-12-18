@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/v1/prisma.service';
 import { UsersRepository } from './users.repository';
 import { AttributesDto } from '../dto/attributes.dto';
 import { PreferencesDto } from '../dto/preferences.dto';
+import { AccessoryDto } from '../dto/accessory.dto';
 
 export type User = {
     // username: string;
@@ -28,5 +29,9 @@ export class UsersService {
     
     async AddUserPreferences(input: PreferencesDto){
         return this.userRepository.AddUserPreferences(input);
+    }
+    
+    async AddAccessory(input: AccessoryDto){
+        return this.userRepository.AddAccessory(input);
     }
 }

@@ -4,6 +4,7 @@ import { AttributesDto } from "../dto/attributes.dto";
 
 import { Prisma } from '@prisma/client';
 import { PreferencesDto } from "../dto/preferences.dto";
+import { AccessoryDto } from "../dto/accessory.dto";
 
 type findUserByEmail= { userId:string }
 @Injectable()
@@ -68,6 +69,21 @@ export class UsersRepository {
             }
         });
         return 'user preferences created for userId'+ input.userId ;
+    }
+
+    async AddAccessory(input: AccessoryDto){
+        await this.validateUser(input.userId);
+        const data = await this.prismaService.accessory.create({
+            data:{
+                userId: input.userId,
+                accessoryName: input.accessoryName,
+                imageUrl: input.imageUrl,
+                accessoryType: input.accessoryType,
+                accessoryColor: input.accessoryColor,
+                accessorySize: input.accessorySize
+            }
+        });
+        return 'accessory added with id'+ data.id;
     }
 
 }
