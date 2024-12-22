@@ -36,7 +36,7 @@ export class AuthService {
 
     const userId = await this.userService.findUserIdByAuth(userAuth.authId);
     
-    const token = this.GenerateToken({userId:userId.userId , email:input.email });
+    const token =  await this.GenerateToken({userId:userId.userId , email:input.email });
 
     return {
       accessToken: token,
@@ -45,18 +45,20 @@ export class AuthService {
     };
   }
 
-  async GenerateToken(user:{ userId:string , email:string }): Promise<{ accessToken: string }> {
+  async GenerateToken(user:{ userId:string , email:string }): Promise<string> {
     const tokenPayload = { sub: user.userId, email: user.email }; // here sub is important according to jwt convention
     const accessToken = await this.jwtService.signAsync(tokenPayload);
-    return { accessToken };
+    return accessToken ;
   }
 
   async signup(input: SignupDto): Promise<SignUpResult | undefined> {
     // create a new user and than generate access token
     const user = await this.authRepository.createUser(input);
+    const accessToken = await this.GenerateToken({userId:user.userId , email:user.email });
+
   
     return {
-      accessToken:'fake-token',
+      accessToken:accessToken,
       userId: user.userId,
       email: user.email
     }

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { SignupDto } from "../dto/signup.dto";
 import { PrismaService } from "src/prisma/v1/prisma.service";
 
-type SignupResult = { userId: string; email: string; token: string; };
+type SignupResult = { userId: string; email: string;};
 
 @Injectable()
 export class AuthRepository{
@@ -56,7 +56,7 @@ export class AuthRepository{
         return {
             userId: userData.id ,
             email: userAuthData.email,
-            token:'fake-token'
+            // token:'fake-token'
         }
     }
 }

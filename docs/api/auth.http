@@ -1,15 +1,25 @@
 # ctrl + alt + r to run
 
-### login-generate access token
-POST http://localhost:3000/auth/login
+# signup user
+POST http://localhost:8000/auth/signup
 content-type: application/json
 
 {
-  "email": "john@gmail.com",
-  "password": "changeme"
+  "email": "s13@gmail.com",
+  "password": "string",
+  "name": "string"
+}
+
+### login-generate access token
+POST http://localhost:8000/auth/login
+content-type: application/json
+
+{
+  "email": "s123@gmail.com",
+  "password": "string"
 }
 
 ### access-control 
-#any change put new bearer token to refresh
-GET http://localhost:3000/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMzA4OTIsImV4cCI6MTczMjIxNzI5Mn0.eODtjaJ9dYDWV8OCf4HCv20biQD0e0HKTkUP8VMyC7s
+# any change put new bearer token to refresh
+GET http://localhost:8000/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMzc1ZjM1NS02NzhhLTQ0ODAtYmVjNS1hOGQ3OTRmM2UyOGMiLCJlbWFpbCI6InMxMjNAZ21haWwuY29tIiwiaWF0IjoxNzM0ODcyOTU2LCJleHAiOjE3MzQ5NTkzNTZ9.iLM1Tura6mokwxKUKhQlCJfZBcBR2DnlpQOclGFsQWA

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, NotImplementedException, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '../guards/auth.guard';
-import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiHeader, ApiOkResponse } from '@nestjs/swagger';
 import { AuthDto } from '../dto/Auth.dto';
 import { SignupDto } from '../dto/Signup.dto';
 
