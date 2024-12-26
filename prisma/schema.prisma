@@ -22,17 +22,23 @@ model UserAuth {
   user      User?
 }
 
+enum GenderType {
+  Male
+  Female
+  UniSex
+}
+
 model User {
   id                    String            @id @default(uuid())
   authId                String            @unique
   name                  String
+  gender                GenderType?       
   userAuth              UserAuth          @relation(fields: [authId], references: [id])
   userAttributes        UserAttributes?
-  userPreference        UserPreference[]
   initiatedExchanges    ExchangeHistory[] @relation("user1Relation")
   receivedExchanges     ExchangeHistory[] @relation("user2Relation")
   UserAddress           UserAddress?
-  phoneNumber           BigInt            @default(0)
+  phoneNumber           String?
   userCredibility       UserCredibility?
   reviewsRecieved       Review[]          @relation("reviewRecieved")
   reviewsGiven          Review[]          @relation("reviewGiven")
@@ -44,12 +50,12 @@ model User {
 model AccessoryChat {
   id             String    @id @default(uuid())
   accessoryId    String
-  intiateUserId  String
+  initiateUserId String
   receivedUserId String
   message        String
   createdAt      DateTime  @default(now())
   accessory      Accessory @relation(fields: [accessoryId], references: [id])
-  user1          User      @relation("initiateUserRelation", fields: [intiateUserId], references: [id])
+  user1          User      @relation("initiateUserRelation", fields: [initiateUserId], references: [id])
   user2          User      @relation("receivedUserRelation", fields: [receivedUserId], references: [id])
 }
 
@@ -115,23 +121,27 @@ model UserAddress {
 }
 
 model UserAttributes {
-  id         String @id @default(uuid())
-  userId     String @unique
-  height     Float
-  weight     Float
-  age        Int
-  sizeTop    Size
-  sizeBottom Size
-  user       User   @relation(fields: [userId], references: [id])
+  id            String         @id @default(uuid())
+  userId        String         @unique
+  height        Float
+  weight        Float
+  age           Int
+  sizeTop       Size
+  sizeBottom    Size
+  user          User           @relation(fields: [userId], references: [id])
+  preferedColor Color
+  type          PreferenceType
+  // preferedColor    Color[]
+  // UserPreference UserPreference[] @relation("userPreferenceRelation")
 }
 
-model UserPreference {
-  id            String         @id @default(uuid())
-  userId        String
-  type          PreferenceType @default(Casual)
-  preferedColor Color[]        @default([])
-  user          User           @relation(fields: [userId], references: [id])
-}
+// model UserPreference {
+//   id               String         @id @default(uuid())
+//   userAttributesId String
+//   type             PreferenceType
+//   preferedColor    Color[]
+//   userAttributes   UserAttributes @relation("userPreferenceRelation", fields: [userAttributesId], references: [id])
+// }
 
 enum Size {
   XS
@@ -177,10 +187,10 @@ model ExchangeHistory {
   description      String
   accessoryIdUser1 String
   accessoryIdUser2 String
-  user1Review      String   @default("No Review")
-  user2Review      String   @default("No Review")
-  user1Rating      Float    @default(5)
-  user2Rating      Float    @default(5)
+  user1Review      String? // becomes null by default
+  user2Review      String?
+  user1Rating      Float?
+  user2Rating      Float?
   createdAt        DateTime @default(now())
   user1            User     @relation("user1Relation", fields: [user1Id], references: [id])
   user2            User     @relation("user2Relation", fields: [user2Id], references: [id])
